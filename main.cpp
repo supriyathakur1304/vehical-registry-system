@@ -69,9 +69,12 @@ public:
     {
         return totalVehicles;
     }
-    void display()
+  void display()
     {
-        cout << "id : " << vehicleID << "Manufacturer : " << manufacturer << "Model" << model << "Year" << year;
+        cout << "Vehicle id: " << vehicleID <<endl;
+        cout<< "Manufacturer: " << manufacturer <<endl;
+        cout<< "Model: " << model <<endl;
+        cout<< "Year: " << year<<endl;
     }
 };
 int Vehicle::totalVehicles = 0;
@@ -100,7 +103,8 @@ public:
     }
     void display()
     {
-        cout << "Fuel : " << fuelType << endl;
+        Vehicle::display();
+        cout << "Fuel Type: " << fuelType << endl;
     }
 };
 class ElectricCar : public Car
@@ -249,10 +253,31 @@ public:
     {
         vehicle[totalVehicle] = v;
         totalVehicle++;
+        cout<<"Vehicle added successfully!"<<endl;
     }
-    void display_vehicle()
+    void viewAllVehicles()
     {
+        if (totalVehicle == 0)
+        {
+            cout << "No vehicles registered." << endl;
+            return;
+        }
+
+        for (int i = 0; i < totalVehicle; i++)
+        {
+            cout << "Vehicle"<< i + 1 << endl;
+            vehicle[i].display();
+        }
+}
+void searchByID(int id){
+    for (int i=0;i<totalVehicle;i++){
+        if(vehicle[i].get_vehicleID()==id){
+            cout<<"Vehicle found!"<<endl;
+            vehicle[i].display();
+            return;
+        }
     }
+}
 };
 
 int main()
@@ -261,7 +286,8 @@ int main()
     int choice;
     do
     {
-        cout << "1. Add a vehicle" << endl;
+        cout<<"----Vehicle Registry----"<<endl;
+        cout<< "1. Add a vehicle" << endl;
         cout << "2. View all vehicle" << endl;
         cout << "3.Search by ID" << endl;
         cout << "4. Exit" << endl;
@@ -335,8 +361,27 @@ int main()
         }
         else if (choice == 2)
         {
+            vr.viewAllVehicles();
         }
+        
+        else if (choice == 3)
+            {
+                int id;
+
+                cout << "Enter vehicle ID to search: ";
+                cin >> id;
+
+                vr.searchByID(id);
+            }
+            else if (choice == 4)
+            {
+                cout << "Exiting Vehicle Registry..." << endl;
+            }
+            else
+            {
+                cout << "Invalid choice! Try again." << endl;
+            }
     } while (choice != 4);
 
     return 0;
-}
+    } 
