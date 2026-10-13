@@ -101,6 +101,7 @@ public:
     {
         return fuelType;
     }
+    
     void display()
     {
         Vehicle::display();
@@ -243,42 +244,40 @@ public:
         cout << "[SUV]" << endl;
     }
 };
+
 class VehicleRegistry
-{
-public:
-    Vehicle vehicle[10];
-    int totalVehicle = 0;
+    {
+    public:
+        Vehicle vehicle[10];
+        int totalVehicle = 0;
 
-    void add_vehicle(Vehicle v)
-    {
-        vehicle[totalVehicle] = v;
-        totalVehicle++;
-        cout<<"Vehicle added successfully!"<<endl;
-    }
-    void viewAllVehicles()
-    {
-        if (totalVehicle == 0)
+        void add_vehicle(Vehicle v)
         {
-            cout << "No vehicles registered." << endl;
-            return;
+            vehicle[totalVehicle] = v;
+            totalVehicle++;
+            cout << "Vehicle added successfully!" << endl;
         }
 
-        for (int i = 0; i < totalVehicle; i++)
+        void viewAllVehicles()
         {
-            cout << "Vehicle"<< i + 1 << endl;
-            vehicle[i].display();
+            for (int i = 0; i < totalVehicle; i++)
+            {
+                vehicle[i].display();
+            }
         }
-}
-void searchByID(int id){
-    for (int i=0;i<totalVehicle;i++){
-        if(vehicle[i].get_vehicleID()==id){
-            cout<<"Vehicle found!"<<endl;
-            vehicle[i].display();
-            return;
+        void searchByID(int id)
+        {
+            for (int i = 0; i < totalVehicle; i++)
+            {
+                if (vehicle[i].get_vehicleID() == id)
+                {
+                    cout << "Vehicle found!" << endl;
+                    vehicle[i].display();
+                    return;
+                }
+            }
         }
-    }
-}
-};
+    };
 
 int main()
 {
@@ -297,7 +296,7 @@ int main()
 
         if (choice == 1)
         {
-            int type, id, y,battery,speed,range;
+            int type, id, y,battery=0,speed=0,range=0;
             string manu, mod, fuel;
 
             cout << "Choose Type : 1. Car 2.ElectricCar 3.FlyingCar 4.SportsCar 5.Sedan 6.SUV : ";
@@ -320,22 +319,22 @@ int main()
 
             if (type == 1)
             {
-                Car car(id, manu, mod, y, fuel);
-                vr.add_vehicle(car);
+                Car c(id, manu, mod, y, fuel);
+                vr.add_vehicle(c);
             }
             else if (type == 2)
             {
                 cout << "Enter Battery Capacity: ";
                 cin >> battery;
-                ElectricCar car(id, manu, mod, y, fuel, battery);
-                vr.add_vehicle(car);
+                ElectricCar c(id, manu, mod, y, fuel, battery);
+                vr.add_vehicle(c);
             }
             else if (type == 3)
             {
                 cout << "Enter Flight Range: ";
                 cin >> range;
-                FlyingCar car(id, manu, mod, y, fuel, range);
-                vr.add_vehicle(car);
+                FlyingCar c(id, manu, mod, y, fuel, range);
+                vr.add_vehicle(c);
             }
             else if (type == 4)
             {
@@ -345,18 +344,18 @@ int main()
                 cout << "Enter Top Speed: ";
                 cin >> speed;
 
-                SportCar car(id, manu, mod, y, fuel, battery, speed);
-                vr.add_vehicle(car);
+                SportCar c(id, manu, mod, y, fuel, battery, speed);
+                vr.add_vehicle(c);
             }
             else if (type == 5)
             {
-                Sedan car(id,manu,mod,y,fuel);
-                vr.add_vehicle(car);
+                Sedan c(id,manu,mod,y,fuel);
+                vr.add_vehicle(c);
             }
             else if (type == 6)
             {
-                SUV car(id,manu,mod,y,fuel);
-                vr.add_vehicle(car);
+                SUV c(id,manu,mod,y,fuel);
+                vr.add_vehicle(c);
             }
         }
         else if (choice == 2)
