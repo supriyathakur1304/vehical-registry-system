@@ -65,7 +65,16 @@ public:
     {
         return year;
     }
+    static int getTotalVehicles()
+    {
+        return totalVehicles;
+    }
+    void display()
+    {
+        cout << "id : " << vehicleID << "Manufacturer : " << manufacturer << "Model" << model << "Year" << year;
+    }
 };
+int Vehicle::totalVehicles = 0;
 class Car : public Vehicle
 {
 private:
@@ -89,14 +98,17 @@ public:
     {
         return fuelType;
     }
+    void display()
+    {
+        cout << "Fuel : " << fuelType << endl;
+    }
 };
 class ElectricCar : public Car
 {
 private:
     int batteryCapacity;
 
-    public:
-
+public:
     ElectricCar() : Car()
     {
         batteryCapacity = 0;
@@ -115,14 +127,18 @@ private:
     {
         return batteryCapacity;
     }
+    void display()
+    {
+        Car::display();
+        cout << "Battery Capacity : " << batteryCapacity << endl;
+    }
 };
 class Aircraft
 {
 private:
     int flightRange;
 
-    public:
-
+public:
     Aircraft()
     {
         flightRange = 0;
@@ -143,38 +159,41 @@ private:
     {
         return flightRange;
     }
+    void display()
+    {
+        cout << "Flight Range : " << flightRange << endl;
+    }
 };
-class FlyingCar:public Car,public Aircraft
+class FlyingCar : public Car, public Aircraft
 {
 public:
-    FlyingCar():Car(),Aircraft()
+    FlyingCar() : Car(), Aircraft()
     {
     }
-    FlyingCar(int id, string manu, string mod, int y, string fuel,int flight) :Car(id,manu,mod,y,fuel) ,Aircraft(flight)
+    FlyingCar(int id, string manu, string mod, int y, string fuel, int flight) : Car(id, manu, mod, y, fuel), Aircraft(flight)
     {
+    }
+    void display()
+    {
+        Car::display();
+        Aircraft::display();
+        cout << "[Flying Car]" << endl;
     }
 };
-class SportCar:public ElectricCar
+class SportCar : public ElectricCar
 {
 private:
     int topSpeed;
 
-    public:
-        SportCar() : ElectricCar()
-        {
-            topSpeed=0;
-        }
-        SportCar(int id, string manu, string mod, int y, string fuel, int battery,int speed) : ElectricCar(id,manu,mod,y,fuel,battery){
-            topSpeed=speed;
-        }
-        
-
-   
-
-   
-
-
-
+public:
+    SportCar() : ElectricCar()
+    {
+        topSpeed = 0;
+    }
+    SportCar(int id, string manu, string mod, int y, string fuel, int battery, int speed) : ElectricCar(id, manu, mod, y, fuel, battery)
+    {
+        topSpeed = speed;
+    }
     void set_topSpeed(int speed)
     {
         topSpeed = speed;
@@ -183,10 +202,141 @@ private:
     {
         return topSpeed;
     }
+    void display()
+    {
+        ElectricCar::display();
+        cout << "topSpeed : " << topSpeed << endl;
+    }
+};
+
+class Sedan : public Car
+{
+public:
+    Sedan() : Car()
+    {
+    }
+    Sedan(int id, string manu, string mod, int y, string fuel) : Car(id, manu, mod, y, fuel)
+    {
+    }
+    void display()
+    {
+        Car::display();
+        cout << "[Sedan]" << endl;
+    }
+};
+class SUV : public Car
+{
+public:
+    SUV() : Car()
+    {
+    }
+    SUV(int id, string manu, string mod, int y, string fuel) : Car(id, manu, mod, y, fuel)
+    {
+    }
+    void display()
+    {
+        Car::display();
+        cout << "[SUV]" << endl;
+    }
+};
+class VehicleRegistry
+{
+public:
+    Vehicle vehicle[10];
+    int totalVehicle = 0;
+
+    void add_vehicle(Vehicle v)
+    {
+        vehicle[totalVehicle] = v;
+        totalVehicle++;
+    }
+    void display_vehicle()
+    {
+    }
 };
 
 int main()
 {
+    VehicleRegistry vr;
+    int choice;
+    do
+    {
+        cout << "1. Add a vehicle" << endl;
+        cout << "2. View all vehicle" << endl;
+        cout << "3.Search by ID" << endl;
+        cout << "4. Exit" << endl;
+
+        cout << "Enter your choice : ";
+        cin >> choice;
+
+        if (choice == 1)
+        {
+            int type, id, y,battery,speed,range;
+            string manu, mod, fuel;
+
+            cout << "Choose Type : 1. Car 2.ElectricCar 3.FlyingCar 4.SportsCar 5.Sedan 6.SUV : ";
+            cin >> type;
+
+            cout << "Enter vehicle id : ";
+            cin >> id;
+
+            cout << "Enter manufacture : ";
+            cin >> manu;
+
+            cout << "Enter your model : ";
+            cin >> mod;
+
+            cout << "Enter year : ";
+            cin >> y;
+
+            cout << "Enter fuel type : ";
+            cin >> fuel;
+
+            if (type == 1)
+            {
+                Car car(id, manu, mod, y, fuel);
+                vr.add_vehicle(car);
+            }
+            else if (type == 2)
+            {
+                cout << "Enter Battery Capacity: ";
+                cin >> battery;
+                ElectricCar car(id, manu, mod, y, fuel, battery);
+                vr.add_vehicle(car);
+            }
+            else if (type == 3)
+            {
+                cout << "Enter Flight Range: ";
+                cin >> range;
+                FlyingCar car(id, manu, mod, y, fuel, range);
+                vr.add_vehicle(car);
+            }
+            else if (type == 4)
+            {
+                cout << "Enter Battery Capacity: ";
+                cin >> battery;
+
+                cout << "Enter Top Speed: ";
+                cin >> speed;
+
+                SportCar car(id, manu, mod, y, fuel, battery, speed);
+                vr.add_vehicle(car);
+            }
+            else if (type == 5)
+            {
+                Sedan car(id,manu,mod,y,fuel);
+                vr.add_vehicle(car);
+            }
+            else if (type == 6)
+            {
+                SUV car(id,manu,mod,y,fuel);
+                vr.add_vehicle(car);
+            }
+        }
+        else if (choice == 2)
+        {
+        }
+    } while (choice != 4);
 
     return 0;
 }
